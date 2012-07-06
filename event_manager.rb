@@ -85,10 +85,19 @@ class EventManager
 			representative = "unknown"
 			#API goes here
 			legislators = Sunlight::Legislator.all_in_zipcode(clean_zipcode(line[:zipcode]))
-			#puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{line[:representative]}"
+			names = legislators.collect do |leg|
+				first_name = leg.firstname
+				first_initial = first_name[0]
+				last_name = leg.lastname
+				title = leg.title
+				party = leg.party
+				title+". "+first_initial + ". " + last_name +"("+party+")" 
+			end
+			
 			legislators.each do |leg|
-				puts leg.firstname
+				puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{names.join(", ")}"
 			end	
+			
 		end
 	end
 end
