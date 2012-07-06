@@ -1,10 +1,12 @@
 #Dependencies
 require 'csv'
-
+require 'sunlight'
 #Class Definition
 class EventManager
 	INVALID_ZIPCODE = "00000"
 	INVALID_NUMBER = "0000000000"
+	Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+
 	def initialize filename
 		puts "EventManager Initialized."
 		#filename = "event_attendees.csv"
@@ -82,7 +84,11 @@ class EventManager
 
 			representative = "unknown"
 			#API goes here
-			puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{line[:representative]}"
+			legislators = Sunlight::Legislator.all_in_zipcode(clean_zipcode(line[:zipcode]))
+			#puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{line[:representative]}"
+			legislators.each do |leg|
+				puts leg.firstname
+			end	
 		end
 	end
 end
