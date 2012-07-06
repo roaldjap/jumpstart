@@ -75,8 +75,18 @@ class EventManager
 			output << line
 		end	
 	end
+
+	def rep_lookup
+		20.times do
+			line = @file.readline
+
+			representative = "unknown"
+			#API goes here
+			puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{line[:representative]}"
+		end
+	end
 end
 
 #script
 manager = EventManager.new('event_attendees.csv')
-manager.output_data
+manager.rep_lookup
