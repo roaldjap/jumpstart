@@ -100,8 +100,30 @@ class EventManager
 			
 		end
 	end
+
+	def create_form_letters
+		letter = File.open("form_letter.html", "r").read
+		5.times do
+			line = @file.readline
+
+			custom_letter =	letter.gsub("#first_name", "#{line[:first_name]}")
+			custom_letter = custom_letter.gsub("#last_name", "#{line[:last_name]}")
+			custom_letter = custom_letter.gsub("#street", "#{line[:street]}")
+			custom_letter = custom_letter.gsub("#city", "#{line[:city]}")
+			custom_letter = custom_letter.gsub("#state", "#{line[:state]}")
+			custom_letter = custom_letter.gsub("#zipcode", "#{clean_zipcode(line[:zipcode])}")
+			
+			filename = "output/thanks_#{line[:last_name]}_#{line[:first_name]}.html"
+			output = File.new(filename,"w")
+			output.write(custom_letter)
+
+
+		end
+
+
+	end
 end
 
 #script
 manager = EventManager.new('event_attendees.csv')
-manager.rep_lookup
+manager.create_form_letters
